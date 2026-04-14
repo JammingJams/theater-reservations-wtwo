@@ -54,9 +54,18 @@ public class TheaterReservationApp {
         System.out.print("How many tickets would you like?: ");
         String userTicketAmount = sc.nextLine().replaceAll("\\s+", "");
 
-        int finalTicketAmount = Integer.parseInt(userTicketAmount);
+        int finalTicketAmount = Integer.parseInt("1");
 
-
+        while (true) {
+            try {
+                finalTicketAmount = Integer.parseInt(userTicketAmount);
+                break;
+            }
+            catch (NumberFormatException e) {
+                System.out.print("Invalid input please try again!: ");
+                userTicketAmount = sc.nextLine().replaceAll("\\s+", "");
+            }
+        }
         if (finalTicketAmount > 1) {
             System.out.println(userTicketAmount + " tickets reserved for " + userArrivalDate + " under " + splitName[1] + ", " + splitName[0]);
         }

@@ -2,7 +2,9 @@ package com.pluralsight;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Formattable;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TheaterReservationApp {
@@ -15,16 +17,38 @@ public class TheaterReservationApp {
 
         String[] splitName = userName.split("\\s+");
 
+        int nameArrayCount = splitName.length;
+
+        while (nameArrayCount > 2 || nameArrayCount == 1) {
+            System.out.print("Please only enter your first and last name here!: ");
+
+            userName = sc.nextLine();
+            splitName = userName.split("\\s+");
+            nameArrayCount = splitName.length;
+        }
 
 
-        System.out.print("What date will you be coming?: ");
-        String userDate = sc.nextLine().replaceAll("\\s+", "");;
+
+        System.out.print("What date will you be coming (MM/dd/yyyy)?: ");
+        String userDate = sc.nextLine().replaceAll("\\s+", "");
 
         userDate = userDate.replaceAll("/", "-");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("MM-dd-yyyy");
 
-        LocalDate userArrivalDate = LocalDate.parse(userDate, format);
+        LocalDate userArrivalDate = LocalDate.parse("10-10-2025", format);
 
+        while (true) {
+            try {
+                userArrivalDate = LocalDate.parse(userDate, format);
+                break;
+            }
+            catch (DateTimeParseException e) {
+                System.out.print("Invalid input please try again!: ");
+                userDate = sc.nextLine().replaceAll("\\s+", "");
+                userDate = userDate.replaceAll("/", "-");
+
+            }
+        }
 
 
         System.out.print("How many tickets would you like?: ");
